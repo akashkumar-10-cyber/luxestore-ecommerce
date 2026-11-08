@@ -1,0 +1,22 @@
+{
+  "name": "fullstack-ecommerce-app",
+  "version": "1.0.0",
+  "description": "Production-ready Full Stack E-Commerce Web Application",
+  "scripts": {
+    "install:all": "npm --prefix server install && npm --prefix client install",
+    "build": "npm --prefix client run build",
+    "server": "npm --prefix server start",
+    "seed": "npm --prefix server run seed",
+    "start": "node server/server.js"
+  },
+  "keywords": [
+    "ecommerce",
+    "react",
+    "express",
+    "mongodb",
+    "jwt",
+    "tailwind"
+  ],
+  "author": "LuxeStore",
+  "license": "ISC"
+}
