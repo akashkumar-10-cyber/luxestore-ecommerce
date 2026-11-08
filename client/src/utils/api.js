@@ -1,3 +1,5 @@
+import { handleMockRequest } from './mockStore';
+
 const API_BASE_URL = import.meta.env.VITE_API_URL || '/api';
 
 export const apiRequest = async (endpoint, options = {}) => {
@@ -15,10 +17,16 @@ export const apiRequest = async (endpoint, options = {}) => {
   const url = `${API_BASE_URL}${endpoint.startsWith('/') ? endpoint : `/${endpoint}`}`;
 
   try {
+    const controller = new AbortController();
+    const timeoutId = setTimeout(() => controller.abort(), 3500);
+
     const response = await fetch(url, {
       ...options,
       headers,
+      signal: controller.signal,
     });
+
+    clearTimeout(timeoutId);
 
     const data = await response.json().catch(() => ({}));
 
@@ -32,8 +40,14 @@ export const apiRequest = async (endpoint, options = {}) => {
 
     return data;
   } catch (error) {
-    console.error(`API Error on [${options.method || 'GET'} ${endpoint}]:`, error.message);
-    throw error;
+    // If backend is unreachable or in static hosting mode, gracefully serve from persistent mock store
+    console.warn(`[Network/Backend Unreachable] Falling back to persistent database store for ${endpoint}`);
+    try {
+      const fallbackData = await handleMockRequest(endpoint, options);
+      return fallbackData;
+    } catch (fallbackError) {
+      throw fallbackError;
+    }
   }
 };
 
