@@ -1,0 +1,20 @@
+services:
+  - type: web
+    name: luxestore-ecommerce
+    runtime: node
+    plan: free
+    buildCommand: npm run install:all && npm run build
+    startCommand: npm run server
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: PORT
+        value: 10000
+      - key: MONGO_URI
+        sync: false
+      - key: JWT_SECRET
+        generateValue: true
+      - key: ADMIN_EMAIL
+        value: admin@luxestore.com
+      - key: ADMIN_PASSWORD
+        value: Admin@123456

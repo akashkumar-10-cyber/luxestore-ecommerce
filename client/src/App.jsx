@@ -1,5 +1,5 @@
 import React from 'react';
-import { BrowserRouter, Routes, Route, Link } from 'react-router-dom';
+import { HashRouter, Routes, Route, Link } from 'react-router-dom';
 import { ToastProvider } from './context/ToastContext';
 import { AuthProvider } from './context/AuthContext';
 import { CartProvider } from './context/CartContext';
@@ -41,7 +41,7 @@ function App() {
     <ToastProvider>
       <AuthProvider>
         <CartProvider>
-          <BrowserRouter>
+          <HashRouter>
             <div className="min-h-screen flex flex-col bg-slate-50 text-slate-900 font-sans selection:bg-emerald-500 selection:text-white">
               <Navbar />
               <main className="flex-1 flex flex-col">
@@ -62,7 +62,7 @@ function App() {
               </main>
               <Footer />
             </div>
-          </BrowserRouter>
+          </HashRouter>
         </CartProvider>
       </AuthProvider>
     </ToastProvider>
